@@ -266,7 +266,7 @@ function ChatArea({
                            :typingChatId === selectedChat.id
                            ?"Typing..."
                            :userStatus[selectedChat?.id]?.online
-                           ?"online"
+                               ?"online"
                            :"Offline"
                         }
                     </p>
