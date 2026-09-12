@@ -387,6 +387,8 @@ import { useSocket } from '../../context/SocketContext'
 
                     const data = await response.json();
 
+                    console.log("Search API Response:", data);
+
                     if (!response.ok) {
                         console.log("User search error:", data);
                         return;
