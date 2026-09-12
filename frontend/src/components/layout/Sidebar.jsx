@@ -377,7 +377,7 @@ import { useSocket } from '../../context/SocketContext'
 
                 try {
                     const response = await fetch(
-                        `https://ch atgram-backend-xcxx.onrender.com/api/users/search?query=${encodeURIComponent(search)}`,
+                        `https://chatgram-backend-xcxx.onrender.com/api/users/search?query=${encodeURIComponent(search)}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,
