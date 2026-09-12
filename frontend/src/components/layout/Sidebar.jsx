@@ -365,6 +365,7 @@ import { useSocket } from '../../context/SocketContext'
 
         useEffect(() => {
             const searchBackendUsers = async () => {
+                console.log("Search value:", search);
                 if (!search.trim()) {
                     setSearchUsers([]);
                     return;
@@ -376,7 +377,7 @@ import { useSocket } from '../../context/SocketContext'
 
                 try {
                     const response = await fetch(
-                        `https://chatgram-backend-xcxx.onrender.com/api/users/search?query=${encodeURIComponent(search)}`,
+                        `https://ch atgram-backend-xcxx.onrender.com/api/users/search?query=${encodeURIComponent(search)}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,
