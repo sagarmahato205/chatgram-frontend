@@ -10,6 +10,8 @@ function MessageBubble({
     edited,
     onReply,
     replyTo,
+    onReaction,
+    reaction,
 }) { 
   return (
     <div
@@ -54,29 +56,50 @@ function MessageBubble({
             <p className='mt-1 text-[10px] text-gray-300'>
               {edited && "(edited)"}
             </p>
+            <div className='mt-2 flex gap-1'>
+              {["❤️", "😂", "👍", "😢", "😯"].map((emoji)=>(
+                <button
+                 key={emoji}
+                 onClick={()=>onReaction(emoji)}
+                 className='text-sm hover:scale-125 transition'>
+                  {emoji}
+                </button>
+              ))}
+            </div>
             {
-              isMe && (
-                <div className='mt-2 flex gap-2'> 
-                  <button
-                    onClick={onReply}
-                    className='mt-2 text-xs text-gray-300 hover:text-white transition'
-                  >
-                    Reply
-                  </button>
-                  <button
-                    onClick={onEdit}
-                    className='mt-2 text-xs text-yellow-300 hover:text-yellow-400'
-                  >
-                    Edit
-                  </button>
-                  <button 
-                    onClick={onDelete}
-                    className='mt-2 text-xs text-red-400 hover:text-red-600'
-                  >
-                    🗑️ Delete
-                  </button>
+              reaction && (
+                <div className='mt-1 text-sm'>
+                  {reaction}
                 </div>
               )
+            }
+            {
+              <div className='mt-2 flex gap-2'>
+                <button
+                  onClick={onReply}
+                  className='text-xs text-gray-300 hover:text-white transition'
+                >
+                  Reply
+                </button>
+
+                {isMe && (
+                  <>
+                    <button
+                      onClick={onEdit}
+                      className='text-xs text-yellow-300 hover:text-yellow-400'
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={onDelete}
+                      className='text-xs text-red-400 hover:text-red-600'
+                    >
+                      🗑️ Delete
+                    </button>
+                  </>
+                )}
+              </div>
             }
         </div>
     </div>

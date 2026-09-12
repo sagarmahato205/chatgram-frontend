@@ -20,35 +20,56 @@ function Login() {
       [name]:value,
     }));
   }
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault();
     setError("");
+
     if(!formData.email.trim()){
       setError("Email is Required");
       return;
     }
+
     if(!formData.password){
       setError("Password is required");
       return;
     }
-    const users = JSON.parse(
-      localStorage.getItem("chatgram_users")
-    ) || [];
-    const loggedInUser = users.find((user)=>{
-      return(
-        user.email === formData.email &&
-        user.password === formData.password
+
+    try{
+      const response = await fetch("https://chatgram-backend-xcxx.onrender.com/api/auth/login",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          email:formData.email,
+          password:formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if(!response.ok){
+        setError(data.message || "Login failed");
+        return;
+      }
+
+      localStorage.setItem(
+        "chatgram_token",
+        data.token
       );
-    });
-    if(!loggedInUser){
-      setError("Invalid Email and Password");
-      return;
+
+      localStorage.setItem(
+        "chatgram_current_user",
+        JSON.stringify(data.user)
+      );
+
+      window.dispatchEvent(new Event("chatgram_login"));
+
+      navigate("/");
+    }catch(error){
+      console.log(error);
+      setError("Unable to connect the server");
     }
-    localStorage.setItem(
-      "chatgram_current_user",
-      JSON.stringify(loggedInUser)
-    );
-    navigate("/")
   }
 
   return (

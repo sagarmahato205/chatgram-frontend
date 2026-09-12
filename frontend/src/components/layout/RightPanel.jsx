@@ -2,6 +2,7 @@ import React from 'react'
 
 function RightPanel({
     selectedChat,
+    userStatus
 }) {
   return (
     <div className='w-72 border-l border-gray-800 bg-gray-900'>

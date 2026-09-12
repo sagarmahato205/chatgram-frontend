@@ -24,61 +24,66 @@ function Signup() {
     }));
   }
   const [error , setError] = useState("");
-  function handleSubmit(e){
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
-    if(!formData.name.trim()){
+    if (!formData.name.trim()) {
       setError("Name is Required");
       return;
     }
 
-    if(!formData.email.trim()){
+    if (!formData.email.trim()) {
       setError("Email is required");
       return;
     }
 
-    if(!formData.password){
-      setError("Password is required"); 
-      return ;
+    if (!formData.password) {
+      setError("Password is required");
+      return;
     }
 
-    if(!formData.confirmPassword){
+    if (!formData.confirmPassword) {
       setError("Confirm Password is required");
       return;
     }
-    if(formData.password !== formData.confirmPassword){
+
+    if (formData.password !== formData.confirmPassword) {
       setError("Password do not match");
       return;
     }
-    console.log(formData);
-    
-    const users = JSON.parse(
-      localStorage.getItem("chatgram_users")
-    ) || [];
-    const existingUser = users.find((user)=>{
-      return user.email === formData.email;
-    });
-    if(existingUser){
-      setError("Email already registered");
-      return;
+
+    try {
+      const response = await fetch(
+        "https://chatgram-backend-xcxx.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            password: formData.password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Signup failed");
+        return;
+      }
+
+      alert("Account Created Successfully!");
+      navigate("/login");
+
+    } catch (error) {
+      console.error("Signup API error:", error);
+      setError("Unable to connect to server");
     }
-    const newUser = {
-      id:Date.now(),
-      name:formData.name,
-      email:formData.email,
-      password:formData.password,
-    };
-    localStorage.setItem(
-      "chatgram_users",
-      JSON.stringify([
-        ...users,
-        newUser,
-      ])
-    );
-    alert("Account Created Successfully!");
-    navigate("/login");
-  }
+}
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-900 to-gray-700'>
