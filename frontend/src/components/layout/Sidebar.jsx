@@ -111,6 +111,7 @@ import { useSocket } from '../../context/SocketContext'
         }, [friends, setChats]);
 
        const [searchUsers, setSearchUsers] = useState([]);
+       const [sentRequests, setSentRequests] = useState([]);
 
         async function handleAccept(request) {
             const token = localStorage.getItem("chatgram_token");
@@ -325,8 +326,8 @@ import { useSocket } from '../../context/SocketContext'
                     return;
                 }
 
+                setSentRequests((prev) => [...prev, String(user._id)]);
                 alert("Friend Request sent.");
-                setSearch("");
 
             } catch (error) {
                 console.error("Send Friend Request API error:", error);
@@ -481,10 +482,17 @@ import { useSocket } from '../../context/SocketContext'
                                 </p>
                             </div>
                             <button
-                              onClick={()=>handleSendRequest(user)}
-                              className='rounded-lg bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700'
+                                onClick={() => handleSendRequest(user)}
+                                disabled={sentRequests.includes(String(user._id))}
+                                className={`rounded-lg px-3 py-1 text-sm text-white ${
+                                    sentRequests.includes(String(user._id))
+                                        ? "bg-gray-600 cursor-not-allowed"
+                                        : "bg-blue-600 hover:bg-blue-700"
+                                }`}
                             >
-                               Send Request
+                                {sentRequests.includes(String(user._id))
+                                    ? "Request Sent"
+                                    : "Send Request"}
                             </button>
                         </div>
                     ))

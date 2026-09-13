@@ -14,7 +14,19 @@ function RightPanel({
                 {selectedChat?.name || "Select a Chat"}
             </h2>
             <p className='text-sm text-green-400'>
-                {selectedChat ? 'Online' : "Select a Chat"}
+                {!selectedChat
+                    ? "Select a Chat"
+                    : userStatus[selectedChat.id]?.online
+                    ? "Online"
+                    : userStatus[selectedChat.id]?.lastSeen
+                    ? `Last seen ${new Date(
+                        userStatus[selectedChat.id].lastSeen
+                    ).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    })}`
+                    : "Offline"
+                }
             </p>
         </div>
 

@@ -56,14 +56,14 @@
           }));
         };
 
-        const handleUserOffline = ({ userId }) => {
-          setUserStatus((prev) => ({
-            ...prev,
-            [userId]: {
-              online: false,
-              lastSeen: new Date(),
-            },
-          }));
+        const handleUserOffline = ({ userId, lastSeen }) => {
+            setUserStatus((prev) => ({
+                ...prev,
+                [userId]: {
+                    online: false,
+                    lastSeen: lastSeen,
+                },
+            }));
         };
 
         socket.on("user_online", handleUserOnline);

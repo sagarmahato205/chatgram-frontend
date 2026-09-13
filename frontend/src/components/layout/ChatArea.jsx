@@ -18,6 +18,17 @@
         const [editingText , setEditingText] = useState("");
         const [replyMessage , setReplyMessage]= useState(null);
         const socket = useSocket();
+
+        useEffect(() => {
+            if (!selectedChat) return;
+
+            console.log("Selected Chat:", selectedChat);
+            console.log("User Status:", userStatus);
+            console.log(
+                "Selected User Status:",    
+                userStatus[selectedChat.id]
+            );
+        }, [selectedChat, userStatus]);
         
         const currentUser = JSON.parse(
             localStorage.getItem("chatgram_current_user")
