@@ -17,6 +17,7 @@
         const [editingId , setEditingId] = useState(null);
         const [editingText , setEditingText] = useState("");
         const [replyMessage , setReplyMessage]= useState(null);
+        const [selectedFile, setSelectedFile] = useState(null);
         const socket = useSocket();
 
         useEffect(() => {
@@ -66,6 +67,8 @@
                     const formattedMessages = backendMessages.map((msg)=>({
                         id:msg._id,
                         text:msg.message,
+                        type:msg.type,
+                        mediaUrl:msg.mediaUrl,
                         sender:
                             String(msg.sender) === String(currentUser.id)
                                  ?"me"
@@ -208,6 +211,8 @@
                 const formattedMessage = {
                     id:newMessage._id,
                     text:newMessage.message,
+                    type:newMessage.type,
+                    mediaUrl:newMessage.mediaUrl,
                     sender:"other",
                     status:isCurrentChat ? "seen" : newMessage.status ,
                     time: new Date(newMessage.createdAt).toLocaleTimeString([],{
@@ -238,7 +243,12 @@
 
                     const updatedChat = {
                         ...incomingChat,
-                        lastMessage: newMessage.message,
+                        lastMessage:
+                            newMessage.type === "image"
+                                ? "📷 Image"
+                                : newMessage.type === "video"
+                                ? "🎥 Video"
+                                : newMessage.message,
                         time: "Now",
                     };
 
@@ -434,7 +444,7 @@
     async function handleSend() {
         if (!selectedChat) return;
 
-        if (input.trim() === "") return;
+        if (input.trim() === "" && !selectedFile) return;
 
         const currentUser = JSON.parse(
             localStorage.getItem("chatgram_current_user")
@@ -508,6 +518,35 @@
 
     
     try {
+        let uploadedMediaUrl = null;
+        let mediaType = "text";
+
+        if (selectedFile) {
+            const formData = new FormData();
+
+            formData.append("media", selectedFile);
+
+            const uploadResponse = await fetch(
+                "https://chatgram-backend-xcxx.onrender.com/api/media/upload",
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: formData,
+                }
+            );
+
+            const uploadData = await uploadResponse.json();
+
+            if (!uploadResponse.ok) {
+                console.log("Media upload error:", uploadData);
+                return;
+            }
+
+            uploadedMediaUrl = uploadData.mediaUrl;
+            mediaType = uploadData.resourceType;
+        }
         const response = await fetch(
             "https://chatgram-backend-xcxx.onrender.com/api/messages/send",
             {
@@ -519,6 +558,8 @@
                 body: JSON.stringify({
                     receiverId: selectedChat.id,
                     message: input.trim(),
+                    type:mediaType,
+                    mediaUrl:uploadedMediaUrl,
                     replyTo: replyMessage?.id || null,
                 }),
             }
@@ -541,6 +582,8 @@
         const formattedMessage = {
             id: savedMessage._id,
             text: savedMessage.message,
+            type:savedMessage.type,
+            mediaUrl:savedMessage.mediaUrl,
             sender: "me",
             status: savedMessage.status,
             time: new Date(
@@ -565,10 +608,17 @@
             },
         }));
 
-        updateChatList(input.trim());
+        updateChatList(
+            mediaType === "image"
+                ? "📷 Image"
+                : mediaType === "video"
+                ? "🎥 Video"
+                : input.trim()
+        );
 
         setInput("");
         setReplyMessage(null);
+        setSelectedFile(null);
 
     } catch (error) {
         console.error("Message API error:", error);
@@ -733,6 +783,8 @@
                     key={message.id}
                     text={message.text}
                     isMe={message.sender === "me"}
+                    type={message.type}
+                    mediaUrl={message.mediaUrl}
                     status={message.status}
                     edited={message.edited}
                     onEdit={()=>handleEdit(message)}
@@ -768,6 +820,64 @@
                     )
                 }
                 <div className='flex items-center gap-3'>
+                    <input
+                        type="file"
+                        accept="image/*,video/*"
+                        id="media-upload"
+                        className="hidden"
+                        onChange={(e) => {
+                            const file = e.target.files[0];
+
+                            if (!file) return;
+
+                            const maxSize = 50 * 1024 * 1024;
+
+                            if (file.size > maxSize) {
+                                alert("File size must be less than 50 MB");
+                                e.target.value = "";
+                                return;
+                            }
+
+                            setSelectedFile(file);
+                            e.target.value = "";
+                        }}
+                    />
+
+                    <label
+                        htmlFor="media-upload"
+                        className="cursor-pointer text-2xl text-gray-400 hover:text-white"
+                    >
+                        📎
+                    </label>
+                    {selectedFile && (
+                        <div className="flex items-center gap-3 p-2">
+                            {selectedFile.type.startsWith("image/") ? (
+                                <img
+                                    src={URL.createObjectURL(selectedFile)}
+                                    alt="Preview"
+                                    className="w-16 h-16 object-cover rounded-lg"
+                                />
+                            ) : (
+                                <video
+                                    src={URL.createObjectURL(selectedFile)}
+                                    className="w-24 h-16 object-cover rounded-lg"
+                                    controls
+                                />
+                            )}
+
+                            <span className="text-sm text-gray-300 truncate max-w-[180px]">
+                                {selectedFile.name}
+                            </span>
+
+                            <button
+                                type="button"
+                                onClick={() => setSelectedFile(null)}
+                                className="text-red-400 hover:text-red-300 text-lg"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    )}
                     <input 
                     type="text" 
                     value={input}

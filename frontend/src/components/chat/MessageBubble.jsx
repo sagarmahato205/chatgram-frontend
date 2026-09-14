@@ -3,6 +3,8 @@ import React from 'react'
 function MessageBubble({
     text,
     isMe,
+    type,
+    mediaUrl,
     status,
     time,
     onDelete,
@@ -35,7 +37,25 @@ function MessageBubble({
                 </div>
               )
             }
-            <p>{text}</p>
+            {type === "image" && mediaUrl && (
+                <img
+                    src={mediaUrl}
+                    alt="Shared image"
+                    className="max-w-full rounded-lg"
+                />
+            )}
+
+            {type === "video" && mediaUrl && (
+                <video
+                    src={mediaUrl}
+                    controls
+                    className="max-w-full rounded-lg"
+                />
+            )}
+
+            {type === "text" && (
+                <p>{text}</p>
+            )}
             <div className='mt-1 flex justify-end items-center gap-1 text-xs text-gray-300'>
               <span>{time}</span>
             
