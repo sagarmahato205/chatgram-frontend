@@ -442,6 +442,7 @@
 
 
     async function handleSend() {
+        console.log("HANDLE SEND CLICKED");
         if (!selectedChat) return;
 
         if (input.trim() === "" && !selectedFile) return;
