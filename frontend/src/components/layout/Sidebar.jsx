@@ -434,13 +434,13 @@ import { useSocket } from '../../context/SocketContext'
         }
         
     return (
-        <div className='w-80 h-screen flex flex-col border-r border-gray-800 bg-gray-900'>
-            <header className='flex items-center justify-between border-b border-gray-800 p-4'>
-                <div className='flex items-center gap-3'>
+        <div className='w-full sm:w-80 h-screen flex flex-col border-r border-gray-800 bg-gray-900'>
+            <header className='flex min-w-0 items-center justify-between border-b border-gray-800 p-3 sm:p-4'>
+                <div className='flex items-center gap-2 sm:gap-3'>
                     <div className='flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 text-xl font-bold'>
                         CG
                     </div>
-                    <h2 className='text-xl font-semibold text-white'>
+                    <h2 className='text-lg sm:text-xl font-semibold text-white'>
                         ChatGram
                     </h2>
                 </div>
@@ -454,16 +454,16 @@ import { useSocket } from '../../context/SocketContext'
                     )}
                 </div>
             </header>
-            <section className='p-4'>
+            <section className='min-w-0 p-3 sm:p-4'>
                 <input 
                 type="text"
                 value={search}
                 onChange={(e)=> setSearch(e.target.value)}
                 placeholder='Search chats...' 
-                className='w-full rounded-lg bg-gray-800 border border-gray-700  px-4 py-2 text-white placeholder-gray-400 outline-none focus:border-blue-500 '
+                className='min-w-0 w-full rounded-lg bg-gray-800 border border-gray-700 px-3 sm:px-4 py-2 text-sm sm:text-base text-white placeholder-gray-400 outline-none focus:border-blue-500'
                 />
             </section>
-            <section className='px-4 pb-4'>
+            <section className='min-w-0 px-3 sm:px-4 pb-4'>
                 <h3 className='mb-3 text-sm font-semibold text-gray-400 uppercase'>
                     Search Results
                 </h3>
@@ -472,11 +472,13 @@ import { useSocket } from '../../context/SocketContext'
                     search.trim() !== "" &&
                     searchUsers.map((user)=>(
                         <div
-                          key={user._id}
-                          className='mb-2 flex items-center justify-between rounded-lg bg-gray-800 p-3  '
+                            key={user._id}
+                            className='mb-2 flex min-w-0 items-center justify-between gap-2 rounded-lg bg-gray-800 p-2 sm:p-3'
                         >
-                            <div>
-                                <p className='font-medium text-white '>{user.name}</p>
+                            <div className='min-w-0 flex-1'>
+                                <p className='font-medium text-white truncate'>
+                                    {user.name}
+                                </p>
                                 <p className='text-xs text-gray-400'>
                                     {userStatus[user._id]?.online ? "Online" : "Offline"}
                                 </p>
@@ -484,7 +486,7 @@ import { useSocket } from '../../context/SocketContext'
                             <button
                                 onClick={() => handleSendRequest(user)}
                                 disabled={sentRequests.includes(String(user._id))}
-                                className={`rounded-lg px-3 py-1 text-sm text-white ${
+                                className={`shrink-0 rounded-lg px-2 sm:px-3 py-1 text-xs sm:text-sm text-white ${
                                     sentRequests.includes(String(user._id))
                                         ? "bg-gray-600 cursor-not-allowed"
                                         : "bg-blue-600 hover:bg-blue-700"
@@ -499,7 +501,7 @@ import { useSocket } from '../../context/SocketContext'
                 }
             </section>
             <div className='flex-1 overflow-y-auto'>
-                    <section className='px-4 pb-4'>
+                    <section className='min-w-0 px-3 sm:px-4 pb-4'>
                         <h3 className='mb-3 text-sm font-semibold text-gray-400 uppercase'>
                             Friends
                         </h3>
@@ -514,7 +516,7 @@ import { useSocket } from '../../context/SocketContext'
                             ))
                         }
                     </section>
-                    <section className="px-4 pb-4">
+                    <section className='min-w-0 px-3 sm:px-4 pb-4'>
                         <h3 className="mb-3 text-sm font-semibold text-gray-400 uppercase">
                             Friend Requests
                         </h3>
@@ -529,7 +531,7 @@ import { useSocket } from '../../context/SocketContext'
                         ))}
                     </section>
 
-                    <section className='px-4 pb-4'>
+                    <section className='min-w-0 px-3 sm:px-4 pb-4'>
                      <h3 className='mb-3 text-sm font-semibold text-gray-400 uppercase'>
                         Recent Chats
                      </h3>
@@ -548,10 +550,10 @@ import { useSocket } from '../../context/SocketContext'
                     )})}
                     </section>
             </div>
-            <div className='mt-auto border-t border-gray-800 p-4'>
+            <div className='mt-auto border-t border-gray-800 p-3 sm:p-4'>
                 <button
                   onClick={handleLogout}
-                  className='w-full rounded-lg bg-red-600 py-3 text-white font-medium transition hover:bg-red-700'
+                  className='w-full rounded-lg bg-red-600 py-2.5 sm:py-3 text-sm sm:text-base text-white font-medium transition hover:bg-red-700'
                 >
                     🚪 Logout
                 </button>

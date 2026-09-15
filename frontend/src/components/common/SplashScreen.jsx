@@ -2,11 +2,11 @@ import React from 'react'
 
 function SplashScreen() {
   return (
-    <div className='h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 text-white'>
-        <div className='h-24 w-24 rounded-full bg-blue-600 flex items-center justify-center text-5xl animate-pulse shadow-2xl shadow-blue-500/50'>
+    <div className='flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 px-4 text-white'>
+        <div className='flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl animate-pulse shadow-2xl shadow-blue-500/50 sm:h-24 sm:w-24 sm:text-5xl'>
             💬
         </div>
-        <h1 className='mt-6 text-4xl font-extrabold tracking-wider animate-pulse'>
+        <h1 className='mt-6 text-3xl font-extrabold tracking-wider animate-pulse sm:text-4xl'>
             ChatGram
         </h1>
         <div className='mt-5 flex justify-center gap-2'>

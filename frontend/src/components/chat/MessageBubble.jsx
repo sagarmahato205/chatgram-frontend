@@ -17,9 +17,9 @@ function MessageBubble({
 }) { 
   return (
     <div
-    className={`mb-3 flex ${isMe ? "justify-end":"justify-start"}`}>
+    className={`mb-3 flex min-w-0 ${isMe ? "justify-end" : "justify-start"}`}>
         <div
-          className={`max-w-xs rounded-2xl px-4 py-2 text-white ${
+          className={`min-w-0 max-w-[85%] sm:max-w-xs break-words overflow-hidden rounded-2xl px-3 sm:px-4 py-2 text-white ${
             isMe
                 ?"bg-emerald-600 rounded-br-sm"
                 :"bg-gray-700 rounded-bl-sm"
@@ -27,7 +27,7 @@ function MessageBubble({
         >
             {
               replyTo && (
-                <div className='mb-2  rounded-lg border-l-4 border-gray-400 bg-black/20 px-3 py-2 '>
+                <div className='mb-2 min-w-0 max-w-full overflow-hidden rounded-lg border-l-4 border-gray-400 bg-black/20 px-3 py-2'>
                   <p className='text-xs font-semibold text-gray-200'>
                     {replyTo.sender === 'me'?'you':'reply'}
                   </p>
@@ -41,7 +41,7 @@ function MessageBubble({
                 <img
                     src={mediaUrl}
                     alt="Shared image"
-                    className="max-w-full rounded-lg"
+                    className="block w-full max-w-[220px] sm:max-w-[320px] rounded-lg object-cover"
                 />
             )}
 
@@ -49,12 +49,12 @@ function MessageBubble({
                 <video
                     src={mediaUrl}
                     controls
-                    className="max-w-full rounded-lg"
+                    className="block w-full max-w-[220px] sm:max-w-[320px] rounded-lg"
                 />
             )}
 
             {type === "text" && (
-                <p>{text}</p>
+                <p className="min-w-0 whitespace-pre-wrap break-words">{text}</p>
             )}
             <div className='mt-1 flex justify-end items-center gap-1 text-xs text-gray-300'>
               <span>{time}</span>
@@ -76,7 +76,7 @@ function MessageBubble({
             <p className='mt-1 text-[10px] text-gray-300'>
               {edited && "(edited)"}
             </p>
-            <div className='mt-2 flex gap-1'>
+            <div className='mt-2 flex flex-wrap gap-1'>
               {["❤️", "😂", "👍", "😢", "😯"].map((emoji)=>(
                 <button
                  key={emoji}
@@ -94,7 +94,7 @@ function MessageBubble({
               )
             }
             {
-              <div className='mt-2 flex gap-2'>
+              <div className='mt-2 flex flex-wrap gap-2'>
                 <button
                   onClick={onReply}
                   className='text-xs text-gray-300 hover:text-white transition'

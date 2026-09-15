@@ -6,6 +6,7 @@
         chats,
         setChats,
         selectedChat,
+        setSelectedChat,
         messages,
         setMessages,
         typingChatId,
@@ -743,15 +744,23 @@
             }
         }
     return (
-        <div className='flex-1 flex flex-col bg-gray-950'>
-            <header className='flex items-center justify-between border-b border-gray-800 px-6 py-4'>
-                <div className='flex items-center gap-3'>
-                    <div className='h-11 w-11 rounded-full bg-blue-600 flex items-center justify-center  font-bold'>
+        <div className='h-full min-h-0 flex-1 flex flex-col bg-gray-950'>
+            <header className='flex items-center justify-between border-b border-gray-800 px-3 sm:px-4 md:px-6 py-3 sm:py-4'>
+                <button
+                    onClick={() => setSelectedChat(null)}
+                    className='mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xl text-gray-300 hover:bg-gray-800 md:hidden'
+                >
+                    ←
+                </button>
+                <div className='flex items-center gap-2 sm:gap-3 min-w-0'>
+                    <div className='h-9 w-9 sm:h-11 sm:w-11 shrink-0 rounded-full bg-blue-600 flex items-center justify-center font-bold'>
                         {selectedChat?.name?.charAt(0) || "?"}
                     </div>
 
-                    <div>
-                        <h2 className='font-semibold text-white'>{selectedChat?.name || "Select a chat"}</h2>
+                    <div className='min-w-0'>
+                        <h2 className='font-semibold text-white truncate max-w-[140px] sm:max-w-none'>
+                            {selectedChat?.name || "Select a chat"}
+                        </h2>
                         <p className='text-sm text-green-400'>
                             {!selectedChat
                                 ? "No Chats Selected"
@@ -771,14 +780,14 @@
                         </p>
                     </div>
                 </div>
-                <div className='flex gap-4 text-xl text-gray-400'>
+                <div className='flex gap-1 sm:gap-3 text-base sm:text-xl text-gray-400 shrink-0'>
                     <button className='hover:text-white transition'>📞</button>
                     <button className='hover:text-white transition'>📹</button>
                     <button className='hover:text-white transition'>⋮</button>
                 </div>
             </header>
 
-            <div className='flex-1 overflow-y-auto p-6'>
+            <div className='min-h-0 min-w-0 flex-1 overflow-y-auto p-2 sm:p-4 md:p-6'>
                 {chatMessages.map((message)=>(
                 <MessageBubble
                     key={message.id}
@@ -800,11 +809,11 @@
                 <div ref={chatEndRef}></div>
             </div>
             
-            <footer className='border-t border-gray-800 p-4'>
+            <footer className='shrink-0 border-t border-gray-800 p-2 sm:p-4'>
                 {
                     replyMessage && (
-                        <div className='mb-3 flex items-center justify-between rounded-lg border-l-4 border-blue-500 bg-gray-800 p-3'>
-                            <div>
+                        <div className='mb-3 flex min-w-0 items-center justify-between gap-2 rounded-lg border-l-4 border-blue-500 bg-gray-800 p-2 sm:p-3'>
+                            <div className='min-w-0 flex-1'>
                                 <p className='text-xs text-blue-400 font-semibold'>
                                     Replying to {replyMessage.sender === 'me'?'you':selectedChat.name}
                                 </p>
@@ -820,7 +829,7 @@
                         </div>
                     )
                 }
-                <div className='flex items-center gap-3'>
+                <div className='flex min-w-0 flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3'>
                     <input
                         type="file"
                         accept="image/*,video/*"
@@ -846,33 +855,33 @@
 
                     <label
                         htmlFor="media-upload"
-                        className="cursor-pointer text-2xl text-gray-400 hover:text-white"
+                        className="cursor-pointer text-xl sm:text-2xl text-gray-400 hover:text-white"
                     >
                         📎
                     </label>
                     {selectedFile && (
-                        <div className="flex items-center gap-3 p-2">
+                        <div className="flex min-w-0 max-w-full items-center gap-2 p-1 sm:gap-3 sm:p-2">
                             {selectedFile.type.startsWith("image/") ? (
                                 <img
                                     src={URL.createObjectURL(selectedFile)}
                                     alt="Preview"
-                                    className="w-16 h-16 object-cover rounded-lg"
+                                    className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg shrink-0"
                                 />
                             ) : (
                                 <video
                                     src={URL.createObjectURL(selectedFile)}
-                                    className="w-24 h-16 object-cover rounded-lg"
+                                    className="w-20 h-14 sm:w-24 sm:h-16 object-cover rounded-lg shrink-0"
                                     controls
                                 />
                             )}
 
-                            <span className="text-sm text-gray-300 truncate max-w-[180px]">
+                            <span className="min-w-0 flex-1 truncate text-xs text-gray-300 sm:max-w-[180px] sm:text-sm">
                                 {selectedFile.name}
                             </span>
 
                             <button
                                 type="button"
-                                onClick={() => setSelectedFile(null)}
+                                onClick={()=>setSelectedFile(null)}
                                 className="text-red-400 hover:text-red-300 text-lg"
                             >
                                 ✕
@@ -904,11 +913,11 @@
 
 
                     onKeyDown={handleKeyDown}
-                    className='flex-1 rounded-lg bg-gray-800 border border-gray-700 px-4 py-3 text-white outline-none focus:border-blue-500'
+                    className='min-w-0 flex-1 rounded-lg bg-gray-800 border border-gray-700 px-3 sm:px-4 py-3 text-sm sm:text-base text-white outline-none focus:border-blue-500'
                     />
                     <button 
                     onClick={handleSend}
-                    className='rounded-lg bg-blue-600 px-6 py-3 font-medium hover:bg-blue-700'>
+                    className='shrink-0 rounded-lg bg-blue-600 px-3 sm:px-6 py-3 text-sm sm:text-base font-medium hover:bg-blue-700'>
                         Send
                     </button>
                 </div>

@@ -5,7 +5,7 @@ function Button({children ,type="submit",onClick,className=""}) {
     <button 
     type={type}
     onClick={onClick}
-    className={`w-full rounded-lg bg-blue-600 px-4 py-3 text-white font-medium transition hover:bg-blue-700  ${className}`}>
+    className={`w-full rounded-lg bg-blue-600 px-3 py-3 text-sm font-medium text-white transition hover:bg-blue-700 sm:px-4 sm:text-base ${className}`}>
         {children}
     </button>
   )

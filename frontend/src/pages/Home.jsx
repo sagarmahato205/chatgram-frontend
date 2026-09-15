@@ -149,35 +149,53 @@
       }
       
       return (
-        <div className='h-screen flex bg-gray-950 text-white overflow-hidden'>
-          <Sidebar
-            chats={chats}
-            setChats={setChats}
-            selectedChat={selectedChat}
-            unreadCount={unreadCount}
-            setSelectedChat={setSelectedChat}
-            friends = {friends}
-            setFriends={setFriends}
-            friendRequests={friendRequests}
-            setFriendRequests={setFriendRequests}
-            typingChatId={typingChatId}
-            setTypingChatId={setTypingChatId}
-            userStatus={userStatus}
-          />
-          <ChatArea 
-            chats={chats}
-            setChats={setChats}
-            selectedChat={selectedChat} 
-            messages={messages}
-            setMessages={setMessages}
-            typingChatId={typingChatId}
-            setTypingChatId={setTypingChatId}
-            userStatus={userStatus}
-          />
-          <RightPanel 
-            selectedChat={selectedChat}
-            userStatus={userStatus}
-          />
+        <div className="h-screen w-full overflow-hidden bg-gray-950 text-white">
+          <div className="flex h-full w-full">
+            <aside
+              className={`h-full min-w-0 w-full shrink-0 md:w-80 ${
+                selectedChat ? "hidden md:block" : "block"
+              }`}
+            >
+              <Sidebar
+                chats={chats}
+                setChats={setChats}
+                selectedChat={selectedChat}
+                unreadCount={unreadCount}
+                setSelectedChat={setSelectedChat}
+                friends={friends}
+                setFriends={setFriends}
+                friendRequests={friendRequests}
+                setFriendRequests={setFriendRequests}
+                typingChatId={typingChatId}
+                setTypingChatId={setTypingChatId}
+                userStatus={userStatus}
+              />
+            </aside>
+            <main
+              className={`h-full min-h-0 min-w-0 flex-1 ${
+                selectedChat ? "block" : "hidden md:block"
+              }`}
+            >
+              <ChatArea
+                chats={chats}
+                setChats={setChats}
+                selectedChat={selectedChat}
+                setSelectedChat={setSelectedChat}
+                messages={messages}
+                setMessages={setMessages}
+                typingChatId={typingChatId}
+                setTypingChatId={setTypingChatId}
+                userStatus={userStatus}
+              />
+            </main>
+            <aside className="hidden h-full min-w-0 w-80 shrink-0 xl:block">
+              <RightPanel
+                selectedChat={selectedChat}
+                userStatus={userStatus}
+              />
+            </aside>
+
+          </div>
         </div>
       )
     }

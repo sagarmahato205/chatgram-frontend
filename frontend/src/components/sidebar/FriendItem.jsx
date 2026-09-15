@@ -7,9 +7,9 @@
     }) {
     return (
         <div onClick={onClick}
-        className='flex items-center justify-between rounded-xl p-3 cursor-pointer hover:bg-gray-800  transition ' 
+        className='flex min-w-0 items-center justify-between rounded-xl p-3 cursor-pointer hover:bg-gray-800 transition' 
         >
-            <div className='flex items-center gap-3'>
+            <div className='flex min-w-0 items-center gap-3'>
                 <div className='relative'>
                     <div className='flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 font-semibold text-white'>
                         {name.charAt(0)}
@@ -20,8 +20,8 @@
                     )}
                 </div>
 
-                <div>
-                    <h3 className='font-semibold text-white'>
+                <div className='min-w-0 flex-1'>
+                    <h3 className='truncate font-semibold text-white'>
                         {name}
                     </h3>
                     <p className='text-xs text-gray-400'>
