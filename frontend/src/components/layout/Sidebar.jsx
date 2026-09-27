@@ -501,6 +501,25 @@ import { useSocket } from '../../context/SocketContext'
                 }
             </section>
             <div className='flex-1 overflow-y-auto'>
+                    <section className='px-3 sm:px-4 py-3'>
+                        <button
+                            onClick={() => navigate("/ai-assistant")}
+                            className='w-full flex items-center gap-3 rounded-lg bg-gray-800 hover:bg-gray-700 px-3 py-3 text-white transition'
+                        >
+                            <div className='flex h-9 w-9 items-center justify-center rounded-full bg-blue-600'>
+                                ✨
+                            </div>
+
+                            <div className='text-left'>
+                                <p className='font-medium'>
+                                    AI Assistant
+                                </p>
+                                <p className='text-xs text-gray-400'>
+                                    Chat with AI
+                                </p>
+                            </div>
+                        </button>
+                    </section>
                     <section className='min-w-0 px-3 sm:px-4 pb-4'>
                         <h3 className='mb-3 text-sm font-semibold text-gray-400 uppercase'>
                             Friends

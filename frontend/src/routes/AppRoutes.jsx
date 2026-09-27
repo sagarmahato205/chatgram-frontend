@@ -6,6 +6,7 @@ import NotFound from '../pages/NotFound'
 import Signup from '../pages/Auth/Signup'
 import ProtectedRoutes from '../components/auth/ProtectedRoutes'
 import PublicRoute from '../components/auth/PublicRoute'
+import AIAssistant from '../pages/AiAssisstant'
 
 function AppRoutes() {
   return (
@@ -32,6 +33,14 @@ function AppRoutes() {
              <PublicRoute>
               <Signup />
              </PublicRoute>
+          }
+        />
+        <Route
+          path='/ai-assistant'
+          element={
+            <ProtectedRoutes>
+              <AIAssistant/>
+            </ProtectedRoutes>
           }
         />
         <Route path='*' element={<NotFound />}/>
